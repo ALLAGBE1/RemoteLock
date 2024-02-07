@@ -26,7 +26,7 @@ class _SignUpScreenState extends State<LoginScreen> {
   bool isLoading = false;
 
   final _formFieldKeyTitre = GlobalKey<FormFieldState<String>>();
-  
+
   final _formFieldKeyPassword = GlobalKey<FormFieldState<String>>();
 
   String emailError = '';
@@ -100,7 +100,8 @@ class _SignUpScreenState extends State<LoginScreen> {
 
           print("Dans le try 3");
 
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const BottomNavBar()));
+          Navigator.pushAndRemoveUntil(
+              context, MaterialPageRoute(builder: (context) => const BottomNavBar()), (route) => false);
 
           print("Dans le try 4");
         }
