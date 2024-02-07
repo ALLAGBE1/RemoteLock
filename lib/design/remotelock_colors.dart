@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 @immutable
 class RemoteLockColors extends ThemeExtension<RemoteLockColors> {
   const RemoteLockColors({
-    required this.toshoPurple,
-    required this.darkerToshoPurple,
+    required this.rtlockPurple,
+    required this.darkerRtlockPurple,
     required this.cadetGray,
     required this.antiFlashWhite,
     required this.systemRed,
@@ -13,13 +13,13 @@ class RemoteLockColors extends ThemeExtension<RemoteLockColors> {
     required this.oxfordBlue,
     required this.white,
     required this.black,
-    required this.toshoBorderPurple,
+    required this.rtlockBorderPurple,
     required this.platinium,
     required this.gray85,
   });
 
-  final Color? toshoPurple;
-  final Color? darkerToshoPurple;
+  final Color? rtlockPurple;
+  final Color? darkerRtlockPurple;
   final Color? cadetGray;
   final Color? antiFlashWhite;
   final Color? systemRed;
@@ -28,14 +28,14 @@ class RemoteLockColors extends ThemeExtension<RemoteLockColors> {
   final Color? oxfordBlue;
   final Color? white;
   final Color? black;
-  final Color? toshoBorderPurple;
+  final Color? rtlockBorderPurple;
   final Color? platinium;
   final Color? gray85;
 
   @override
   RemoteLockColors copyWith({
-    Color? toshoPurple,
-    Color? darkerToshoPurple,
+    Color? rtlockPurple,
+    Color? darkerrtlockPurple,
     Color? cadetGray,
     Color? antiFlashWhite,
     Color? systemRed,
@@ -44,13 +44,13 @@ class RemoteLockColors extends ThemeExtension<RemoteLockColors> {
     Color? oxfordBlue,
     Color? white,
     Color? black,
-    Color? toshoBorderPurple,
+    Color? rtlockBorderPurple,
     Color? platinium,
     Color? gray85,
   }) {
     return RemoteLockColors(
-      toshoPurple: toshoPurple ?? this.toshoPurple,
-      darkerToshoPurple: darkerToshoPurple ?? this.darkerToshoPurple,
+      rtlockPurple: rtlockPurple ?? this.rtlockPurple,
+      darkerRtlockPurple: darkerrtlockPurple ?? this.darkerRtlockPurple,
       cadetGray: cadetGray ?? this.cadetGray,
       antiFlashWhite: antiFlashWhite ?? this.antiFlashWhite,
       systemRed: systemRed ?? this.systemRed,
@@ -59,7 +59,7 @@ class RemoteLockColors extends ThemeExtension<RemoteLockColors> {
       oxfordBlue: oxfordBlue ?? this.oxfordBlue,
       white: white ?? this.white,
       black: black ?? this.black,
-      toshoBorderPurple: toshoBorderPurple ?? this.toshoBorderPurple,
+      rtlockBorderPurple: rtlockBorderPurple ?? this.rtlockBorderPurple,
       platinium: platinium ?? this.platinium,
       gray85: gray85 ?? this.gray85,
     );
@@ -71,8 +71,8 @@ class RemoteLockColors extends ThemeExtension<RemoteLockColors> {
       return this;
     }
     return RemoteLockColors(
-      toshoPurple: Color.lerp(toshoPurple, other.toshoPurple, t),
-      darkerToshoPurple: Color.lerp(darkerToshoPurple, other.darkerToshoPurple, t),
+      rtlockPurple: Color.lerp(rtlockPurple, other.rtlockPurple, t),
+      darkerRtlockPurple: Color.lerp(darkerRtlockPurple, other.darkerRtlockPurple, t),
       cadetGray: Color.lerp(cadetGray, other.cadetGray, t),
       antiFlashWhite: Color.lerp(antiFlashWhite, other.antiFlashWhite, t),
       systemRed: Color.lerp(systemRed, other.systemRed, t),
@@ -81,7 +81,7 @@ class RemoteLockColors extends ThemeExtension<RemoteLockColors> {
       oxfordBlue: Color.lerp(oxfordBlue, other.oxfordBlue, t),
       white: Color.lerp(white, other.white, t),
       black: Color.lerp(black, other.black, t),
-      toshoBorderPurple: Color.lerp(toshoBorderPurple, other.toshoBorderPurple, t),
+      rtlockBorderPurple: Color.lerp(rtlockBorderPurple, other.rtlockBorderPurple, t),
       platinium: Color.lerp(platinium, other.platinium, t),
       gray85: Color.lerp(gray85, other.gray85, t),
     );
@@ -90,8 +90,8 @@ class RemoteLockColors extends ThemeExtension<RemoteLockColors> {
 // Optional
   @override
   String toString() => '''MyColors(
-toshoPurple : $toshoPurple ,
-darkerToshoPurple : $darkerToshoPurple ,
+rtlockPurple : $rtlockPurple ,
+darkerrtlockPurple : $darkerRtlockPurple ,
 cadetGray : $cadetGray ,
 antiFlashWhite : $antiFlashWhite ,
 systemRed : $systemRed ,
@@ -100,15 +100,15 @@ systemYellow : $systemYellow ,
 oxfordBlue : $oxfordBlue ,
 white : $white ,
 black : $black ,
-toshoBorderPurple : $toshoBorderPurple ,
+rtlockBorderPurple : $rtlockBorderPurple ,
   )
 platinium: $platinium;
 gray85: $gray85''';
 }
 
 const RemoteLockColors lightRemoteLockColors = RemoteLockColors(
-  toshoPurple: Color(0xFF695ED3),
-  darkerToshoPurple: Color(0xFF4437C8),
+  rtlockPurple: Color(0xFF695ED3),
+  darkerRtlockPurple: Color(0xFF4437C8),
   cadetGray: Color(0xFF97A3B7),
   antiFlashWhite: Color(0xFFF5F6F8),
   systemRed: Color(0xFFFF3B30),
@@ -117,7 +117,7 @@ const RemoteLockColors lightRemoteLockColors = RemoteLockColors(
   oxfordBlue: Color(0xFF0E0B28),
   white: Color(0xFFFFFFFF),
   black: Color(0xFF000000),
-  toshoBorderPurple: Color(0xFF6B5EDB),
+  rtlockBorderPurple: Color(0xFF6B5EDB),
   platinium: Color(0xFFD8DCE4),
   gray85: Color.fromARGB(255, 170, 172, 170),
 );
