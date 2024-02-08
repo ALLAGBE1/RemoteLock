@@ -38,7 +38,19 @@ class _AccueilState extends State<Accueil> {
                     ),
                     Consumer(
                       builder: (_, WidgetRef ref, __) {
-                        return ref.watch(userNotifierProvider).maybeWhen(
+                        // return ref.watch(userNotifierProvider).maybeWhen(
+                        //       data: (data) {
+                        //         if (data == null) {
+                        //           return const SizedBox.shrink();
+                        //         }
+                        //         return Text(
+                        //           data.fullname,
+                        //           style: const TextStyle(color: Colors.white, fontSize: 25),
+                        //         );
+                        //       },
+                        //       orElse: () => const SizedBox.shrink(),
+                        //     );
+                        return ref.watch(userNotifierProvider).when(
                               data: (data) {
                                 if (data == null) {
                                   return const SizedBox.shrink();
@@ -48,7 +60,8 @@ class _AccueilState extends State<Accueil> {
                                   style: const TextStyle(color: Colors.white, fontSize: 25),
                                 );
                               },
-                              orElse: () => const SizedBox.shrink(),
+                              error: (error, stackTrace) => Text(error.toString()),
+                              loading: () => const SizedBox.shrink(),
                             );
                       },
                     ),
