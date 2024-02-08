@@ -1,153 +1,52 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:http/http.dart' as http;
+import 'package:remotelock/features/auth/provider/user_provider.dart';
 import 'package:remotelock/features/auth/signup_sceen.dart';
-import 'package:remotelock/features/auth/userData.dart';
 import 'package:remotelock/features/auth/widgets/remontelock_button.dart';
 import 'package:remotelock/features/auth/widgets/remotelock_social_button.dart';
 import 'package:remotelock/features/auth/widgets/remotelock_textField.dart';
 import 'package:remotelock/widgets/bottom_navbar.dart';
 import 'package:remotelock/widgets/loader.dart';
 import 'package:remotelock/widgets/widget_logo.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _SignUpScreenState();
+  ConsumerState<LoginScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<LoginScreen> {
-  bool isLoading = false;
+class _SignUpScreenState extends ConsumerState<LoginScreen> {
+  // bool isLoading = false;
 
   final _formFieldKeyTitre = GlobalKey<FormFieldState<String>>();
-  
+
   final _formFieldKeyPassword = GlobalKey<FormFieldState<String>>();
 
   String emailError = '';
   String passwordError = '';
 
-  Future<void> _connectData() async {
-    print("''''''''''''''''''''''''''''''''''''''''''''''''''''''");
-
-    http.Response? response;
-    var data;
-    var dataErreur;
-
-    // Réinitialise les messages d'erreur
-    setState(() {
-      emailError = '';
-      passwordError = '';
-    });
-
-    setState(() {
-      isLoading = true;
-    });
-    print("Avant le try");
-    try {
-      print("Début le try");
-
-      String email = _formFieldKeyTitre.currentState?.value ?? '';
-      String password = _formFieldKeyPassword.currentState?.value ?? '';
-
-      response = await http.post(Uri.parse('https://api-rtlock.ddnsfree.com/users/login'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(<String, dynamic>{
-            'email': email,
-            'password': password,
-          }));
-
-      if (response.statusCode == 200) {
-        print('Try : Response status code: ${response.statusCode}');
-        print('Try : Response body: ${response.body}');
-        print('Try : Response status code: ${response.statusCode}');
-        data = json.decode(response.body);
-        print('Try : Response body: $data');
-        if (data.containsKey('user')) {
-          String id = data['user']['id'];
-          print(id);
-          String accessToken = data['user']['access_token'];
-          print(accessToken);
-          String fullname = data['user']['fullname'];
-          print(fullname);
-          String email = data['user']['email'];
-          print(email);
-          String role = data['user']['role'];
-          print(role);
-
-          print("Milieu try 1");
-
-          UserData.id = id;
-          UserData.access_token = accessToken;
-          UserData.fullname = fullname;
-          UserData.email = email;
-          UserData.role = role;
-          print("Milieu try 2");
-
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('token', UserData.id);
-          prefs.setString('username', UserData.access_token);
-          prefs.setString('username', UserData.fullname);
-          prefs.setString('username', UserData.email);
-          prefs.setString('username', UserData.role);
-
-          print("Dans le try 3");
-
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const BottomNavBar()));
-
-          print("Dans le try 4");
-        }
-      } else if (response.statusCode == 404) {
-        // throw Exception('Failed to create data');
-        // throw Exception('Failed to create data');
-        print('Try : Response status code: ${response.statusCode}');
-        // print('Try : Response body: ${response.body}');
-        dataErreur = json.decode(response.body);
-        print("Merci : $dataErreur");
-
-        String detailValue = dataErreur['detail'];
-        var snackBar = SnackBar(
-          content: Text(detailValue),
-          backgroundColor: Colors.red,
-        );
-
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      } else if (response.statusCode == 422) {
-        print('Try : Response status code: ${response.statusCode}');
-        dataErreur = json.decode(response.body);
-        print("Merci : $dataErreur");
-
-        String detailValue = dataErreur['detail'][0]['msg'];
-
-        var snackBar = SnackBar(
-          content: Text(detailValue),
-          backgroundColor: Colors.red,
-        );
-
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-    } catch (error) {
-      print('Error during HTTP request: $error');
-      if (response != null) {
-        print('Catch : Response status code: ${response.statusCode}');
-        print('Catch : Response body: ${response.body}');
-      }
-    }
-
-    setState(() {
-      isLoading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    ref.listen(userNotifierProvider, (previous, next) {
+      if (next.hasError && previous?.hasError == false) {
+        var snackBar = SnackBar(
+          content: Text(next.error.toString()),
+          backgroundColor: Colors.red,
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+
+      if (next.hasValue && next.value != null && previous?.value == null) {
+        //TODO navigate home
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const BottomNavBar()));
+      }
+    });
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -224,10 +123,10 @@ class _SignUpScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-            if (isLoading)
-              const Positioned(
-                child: Loader(),
-              ),
+            // if (isLoading)
+            //   const Positioned(
+            //     child: Loader(),
+            //   ),
           ],
         ),
       ),
@@ -266,12 +165,29 @@ class _SignUpScreenState extends State<LoginScreen> {
   }
 
   Widget _loginButton() {
-    return RemoteLockButton(
-        onTap: () {
-          // isLoading ? null : () => _connectData();
-          _connectData();
-        },
-        labelText: "Log In");
+    return Consumer(builder: (_, ref, __) {
+      return ref.watch(userNotifierProvider).maybeWhen(
+            orElse: () {
+              return RemoteLockButton(
+                  onTap: () {
+                    ref.read(userNotifierProvider.notifier).login(
+                          email: _formFieldKeyTitre.currentState?.value ?? '',
+                          password: _formFieldKeyPassword.currentState?.value ?? '',
+                        );
+                  },
+                  labelText: "Log In");
+            },
+            loading: () => const Loader(),
+          );
+    });
+
+    // return RemoteLockButton(
+    //     onTap: () {
+
+    //       // isLoading ? null : () => _connectData();
+    //       _connectData();
+    //     },
+    //     labelText: "Log In");
   }
 
   Widget _oauthTiers() {

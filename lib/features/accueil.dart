@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:remotelock/features/auth/userData.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:remotelock/features/auth/provider/user_provider.dart';
 
 class Accueil extends StatefulWidget {
   const Accueil({super.key});
@@ -35,9 +36,21 @@ class _AccueilState extends State<Accueil> {
                       "Mes appareils",
                       style: TextStyle(color: Colors.white, fontSize: 25),
                     ),
-                    Text(
-                      UserData.fullname,
-                      style: const TextStyle(color: Colors.white, fontSize: 25),
+                    Consumer(
+                      builder: (_, WidgetRef ref, __) {
+                        return ref.watch(userNotifierProvider).maybeWhen(
+                              data: (data) {
+                                if (data == null) {
+                                  return const SizedBox.shrink();
+                                }
+                                return Text(
+                                  data.fullname,
+                                  style: const TextStyle(color: Colors.white, fontSize: 25),
+                                );
+                              },
+                              orElse: () => const SizedBox.shrink(),
+                            );
+                      },
                     ),
                     // const SnackBarCustom(textContent: '',)
                   ],

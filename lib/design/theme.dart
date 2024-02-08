@@ -4,8 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:remotelock/design/remotelock_colors.dart';
 import 'package:remotelock/design/remotelock_typo.dart';
 
-
-
 // THEMES
 enum ThemeState { light, dark }
 
@@ -23,6 +21,16 @@ ThemeData getTheme(ThemeState state) {
 
   return theme.copyWith(
     primaryColor: toshoColors.toshoPurple,
+
+    // SNACKBAR
+    snackBarTheme: SnackBarThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      backgroundColor: toshoColors.black,
+      behavior: SnackBarBehavior.floating,
+      insetPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+    ),
 
     // TEXTFIELD
     inputDecorationTheme: InputDecorationTheme(
